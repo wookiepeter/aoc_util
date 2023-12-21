@@ -20,6 +20,23 @@ pub fn manhattan_dist_u64(lhs: &(u64, u64), rhs: &(u64, u64)) -> u64 {
     lhs.0.abs_diff(rhs.0) + lhs.1.abs_diff(rhs.1)
 }
 
+pub fn parse_input_blocks(input: &str) -> Vec<String> {
+    let mut line_iter = input.lines().peekable();
+    let mut result: Vec<String> = vec![];
+
+    while line_iter.peek().is_some() {
+        let block = line_iter
+            .by_ref()
+            .take_while(|line| !line.is_empty())
+            .collect::<String>();
+
+        result.push(block);
+        _ = line_iter.next()
+    }
+
+    result
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -39,5 +56,25 @@ mod tests {
     fn test_manhattan_dist() {
         let result = manhattan_dist(&(1, 3), &(4, 5));
         assert_eq!(result, 5)
+    }
+
+    use crate::parse_input_blocks;
+
+    #[test]
+    fn test_input_block_parsing() {
+        let result = parse_input_blocks(
+            "#####uaie#
+uiaeuiaetröü
+uiaetnuidaet
+
+uiaentuiranes
+uiatreudiaen
+uiadteruiane
+
+uiatreudiare
+u",
+        );
+
+        assert_eq!(result.len(), 3)
     }
 }
