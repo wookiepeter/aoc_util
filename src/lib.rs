@@ -1,3 +1,5 @@
+pub mod string_grid;
+
 pub fn find_chars_positions(input: &str, char_test: fn(char) -> bool) -> Vec<(usize, usize)> {
     input
         .lines()
