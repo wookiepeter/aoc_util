@@ -1,3 +1,7 @@
+use std::{collections::HashMap, fmt::Display};
+
+use usize_point::Point;
+
 pub mod direction;
 pub mod grid;
 pub mod string_grid;
@@ -37,6 +41,27 @@ pub fn parse_input_blocks(input: &str) -> Vec<String> {
 
         result.push(block);
         _ = line_iter.next()
+    }
+
+    result
+}
+
+pub fn print_hash_map_values<T: Display>(map: HashMap<Point, T>, grid_size: Point) -> String {
+    let (_, longest_string) = map
+        .iter()
+        .max_by(|(_, a), (_, b)| a.to_string().len().cmp(&b.to_string().len()))
+        .unwrap();
+    let len = longest_string.to_string().len();
+
+    let mut result: String = String::new();
+    for y in 0..grid_size.1 {
+        for x in 0..grid_size.0 {
+            let value = map
+                .get(&(x, y))
+                .map_or(String::from("0"), |value| value.to_string());
+            result.push_str(format!("{:0>len$}.", value, len = len).as_str());
+        }
+        result.push('\n');
     }
 
     result

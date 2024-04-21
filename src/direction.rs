@@ -43,6 +43,14 @@ impl Direction {
     pub fn opposite(&self) -> Self {
         self.rotate(Self::CLOCKWISE, 2)
     }
+
+    pub fn is_horizontal(&self) -> bool {
+        *self == Direction::Right || *self == Direction::Left
+    }
+
+    pub fn is_vertical(&self) -> bool {
+        !self.is_horizontal()
+    }
 }
 
 impl From<Direction> for (i32, i32) {
