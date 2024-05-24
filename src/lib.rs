@@ -4,6 +4,7 @@ use usize_point::Point;
 
 pub mod direction;
 pub mod grid;
+pub mod range_util;
 pub mod string_grid;
 pub mod usize_point;
 
