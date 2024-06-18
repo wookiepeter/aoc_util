@@ -98,6 +98,27 @@ where
     }
 }
 
+impl<T> Grid<T>
+where
+    T: Eq + PartialEq,
+{
+    pub fn find_positions(&self, elem: &T) -> Vec<(usize, usize)> {
+        self.array
+            .iter()
+            .enumerate()
+            .flat_map(|(row, row_array)| {
+                row_array
+                    .iter()
+                    .enumerate()
+                    .filter_map(move |(column, value)| match value.eq(elem) {
+                        true => Some((column, row)),
+                        false => None,
+                    })
+            })
+            .collect()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Direction;
