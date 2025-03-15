@@ -1,9 +1,11 @@
+#[deprecated(note = "use the aoc_util::grid_display module instead!")]
 pub struct GridInfo {
     pub default_char: char,
     pub dimensions: (usize, usize),
     pub other_chars: Vec<(char, Vec<(usize, usize)>)>,
 }
 
+// TODO: Should probably be named something different?! maybe DisplayGrid?!
 impl GridInfo {
     /// Creates a String containing a 2d grid of characters with the provided positions.
     ///
@@ -13,6 +15,7 @@ impl GridInfo {
     /// Doesn't handle duplicate positions, will just overwrite them.
     ///
     /// # panics on positions that are out of bounds
+    #[deprecated(note = "create aoc_util::grid_display and use it's to_string() method instead!")]
     pub fn create_grid(&self) -> String {
         let mut display_vecs = vec![vec![self.default_char; self.dimensions.0]; self.dimensions.1];
 

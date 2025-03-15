@@ -1,6 +1,6 @@
 use std::convert::From;
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
 pub enum Direction {
     Up,
     Right,
@@ -17,8 +17,8 @@ Feature List
 */
 
 impl Direction {
-    const CLOCKWISE: [Self; 4] = [Self::Up, Self::Right, Self::Down, Self::Left];
-    const COUNTER_CLOCKWISE: [Self; 4] = [Self::Up, Self::Left, Self::Down, Self::Right];
+    pub const CLOCKWISE: [Self; 4] = [Self::Up, Self::Right, Self::Down, Self::Left];
+    pub const COUNTER_CLOCKWISE: [Self; 4] = [Self::Up, Self::Left, Self::Down, Self::Right];
 
     fn rotate(&self, directions: [Self; 4], times: usize) -> Self {
         let (index, _) = directions
