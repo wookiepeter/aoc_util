@@ -1,4 +1,4 @@
-use std::ops::{Range, RangeBounds};
+use std::ops::Range;
 
 pub fn combine_ranges<T>(ranges: &Vec<Range<T>>) -> Vec<Range<T>>
 where

@@ -5,6 +5,7 @@ pub struct GridInfo {
     pub other_chars: Vec<(char, Vec<(usize, usize)>)>,
 }
 
+#[allow(deprecated)]
 // TODO: Should probably be named something different?! maybe DisplayGrid?!
 impl GridInfo {
     /// Creates a String containing a 2d grid of characters with the provided positions.
@@ -39,6 +40,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[allow(deprecated)]
     fn test_display() {
         let info = GridInfo {
             default_char: '.',
