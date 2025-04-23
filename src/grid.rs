@@ -119,6 +119,43 @@ where
     }
 }
 
+impl<'a, T> IntoIterator for &'a Grid<T> {
+    type Item = (usize, usize);
+
+    type IntoIter = GridIter<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        GridIter {
+            grid: self,
+            x: 0,
+            y: 0,
+        }
+    }
+}
+
+pub struct GridIter<'a, T> {
+    grid: &'a Grid<T>,
+    x: usize,
+    y: usize,
+}
+
+impl<T> Iterator for GridIter<'_, T> {
+    type Item = (usize, usize);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.x >= self.grid.size.0 {
+            self.x = 0;
+            self.y += 1;
+            if self.y >= self.grid.size.1 {
+                return None;
+            }
+        }
+        let res = Some((self.x, self.y));
+        self.x += 1;
+        res
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Direction;
@@ -202,5 +239,28 @@ GHI",
             char_grid.get_direct_neighbor((2, 0), Direction::Right),
             None
         );
+    }
+
+    #[test]
+    fn test_grid_iter() {
+        let char_grid = Grid::<char>::new_char_grid(
+            r"ABC
+DEF
+GHI",
+        );
+
+        let positions: Vec<(usize, usize)> = char_grid.into_iter().collect();
+        let test_positions = vec![
+            (0, 0),
+            (1, 0),
+            (2, 0),
+            (0, 1),
+            (1, 1),
+            (2, 1),
+            (0, 2),
+            (1, 2),
+            (2, 2),
+        ];
+        assert_eq!(positions, test_positions)
     }
 }
