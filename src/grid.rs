@@ -9,11 +9,10 @@ pub struct Grid<T> {
 
 /*
 Feature TODO:
-- generic creation (with lambda)
-    - helper function that uses straight chars
 - getter that handles out of bounds and maybe even different numeric types?!
     - way simpler would be just to have a secondary getter that uses those types
 - get_neighbors that handles out of bounds
+- Proper Errorhandling and Result Types to handle all the out of bounds stuff
 
 - Direction struct
 - integration of directions into neighbors?!
@@ -52,6 +51,14 @@ where
             Some(&self.array[position.1][position.0])
         } else {
             None
+        }
+    }
+
+    pub fn set(&mut self, position: (usize, usize), e: T) {
+        if self.is_inbound(position) {
+            self.array[position.1][position.0] = e;
+        } else {
+            panic!("Invalid position")
         }
     }
 
@@ -174,6 +181,22 @@ GHI",
         assert_eq!(char_grid.get((0, 2)), Some(&'G'));
         assert_eq!(char_grid.get((3, 0)), None);
         assert_eq!(char_grid.get((0, 3)), None);
+    }
+
+    #[test]
+    fn test_set() {
+        let mut char_grid = Grid::<char>::new_char_grid(
+            r"ABC
+DEF
+GHI",
+        );
+
+        assert_eq!(char_grid.get((0, 0)), Some(&'A'));
+        char_grid.set((0, 0), 'C');
+        assert_eq!(char_grid.get((0, 0)), Some(&'C'));
+        assert_eq!(char_grid.get((2, 1)), Some(&'F'));
+        char_grid.set((2, 1), 'X');
+        assert_eq!(char_grid.get((2, 1)), Some(&'X'));
     }
 
     #[test]
